@@ -1,32 +1,31 @@
 import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  OnChanges,
-  SimpleChanges,
-  ChangeDetectionStrategy,
+    Component,
+    Input,
+    Output,
+    EventEmitter,
+    OnChanges,
+    SimpleChanges,
+    ChangeDetectionStrategy,
 } from '@angular/core';
 import {
-  FormControl,
-  FormGroup,
-  FormArray,
-  FormBuilder,
-  Validators,
+    FormControl,
+    FormGroup,
+    FormArray,
+    FormBuilder,
+    Validators,
 } from '@angular/forms';
 
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 import { Pizza } from '../../models/pizza.model';
 import { Topping } from '../../models/topping.model';
 
 @Component({
-  selector: 'pizza-form',
-  styleUrls: ['pizza-form.component.scss'],
-  template: `
+    selector: 'pizza-form',
+    styleUrls: ['pizza-form.component.scss'],
+    template: `
     <div class="pizza-form">
       <form [formGroup]="form">
-      
         <label>
           <h4>Pizza name</h4>
           <input 
@@ -41,7 +40,7 @@ import { Topping } from '../../models/topping.model';
             <p>Pizza must have a name</p>
           </div>
         </label>
-      
+
         <ng-content></ng-content>
 
         <label>
@@ -61,6 +60,7 @@ import { Topping } from '../../models/topping.model';
             type="button"
             class="btn btn__ok"
             *ngIf="!exists"
+            [disabled]="emptyData"
             (click)="createPizza(form)">
             Create Pizza
           </button>
@@ -87,60 +87,60 @@ import { Topping } from '../../models/topping.model';
   `,
 })
 export class PizzaFormComponent implements OnChanges {
-  exists = false;
+    emptyData = false;
+    exists = false;
+    @Input() pizza: Pizza;
+    @Input() toppings: Topping[];
 
-  @Input() pizza: Pizza;
-  @Input() toppings: Topping[];
+    @Output() selected = new EventEmitter<number[]>();
+    @Output() create = new EventEmitter<Pizza>();
+    @Output() update = new EventEmitter<Pizza>();
+    @Output() remove = new EventEmitter<Pizza>();
 
-  @Output() selected = new EventEmitter<number[]>();
-  @Output() create = new EventEmitter<Pizza>();
-  @Output() update = new EventEmitter<Pizza>();
-  @Output() remove = new EventEmitter<Pizza>();
+    form = this.fb.group({
+        name: ['', Validators.required],
+        toppings: [[]],
+    });
 
-  form = this.fb.group({
-    name: ['', Validators.required],
-    toppings: [[]],
-  });
+    constructor(private fb: FormBuilder) { }
 
-  constructor(private fb: FormBuilder) {}
-
-  get nameControl() {
-    return this.form.get('name') as FormControl;
-  }
-
-  get nameControlInvalid() {
-    return this.nameControl.hasError('required') && this.nameControl.touched;
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (this.pizza && this.pizza.id) {
-      this.exists = true;
-      this.form.patchValue(this.pizza);
+    get nameControl() {
+        return this.form.get('name') as FormControl;
     }
-    this.form
-      .get('toppings')
-      .valueChanges.pipe(
-        map(toppings => toppings.map((topping: Topping) => topping.id))
-      )
-      .subscribe(value => this.selected.emit(value));
-  }
 
-  createPizza(form: FormGroup) {
-    const { value, valid } = form;
-    if (valid) {
-      this.create.emit(value);
+    get nameControlInvalid() {
+        return this.nameControl.hasError('required') && this.nameControl.touched;
     }
-  }
 
-  updatePizza(form: FormGroup) {
-    const { value, valid, touched } = form;
-    if (touched && valid) {
-      this.update.emit({ ...this.pizza, ...value });
+    ngOnChanges(changes: SimpleChanges) {
+        if (this.pizza && this.pizza.id) {
+            this.exists = true;
+            this.form.patchValue(this.pizza);
+        }
+        this.form
+            .get('toppings')
+            .valueChanges.pipe(
+                map(toppings => toppings.map((topping: Topping) => topping.id))
+            )
+            .subscribe(value => this.selected.emit(value));
     }
-  }
 
-  removePizza(form: FormGroup) {
-    const { value } = form;
-    this.remove.emit({ ...this.pizza, ...value });
-  }
+    createPizza(form: FormGroup) {
+        const { value, valid } = form;
+        if (valid) {
+            this.create.emit(value);
+        }
+    }
+
+    updatePizza(form: FormGroup) {
+        const { value, valid, touched } = form;
+        if (touched && valid) {
+            this.update.emit({ ...this.pizza, ...value });
+        }
+    }
+
+    removePizza(form: FormGroup) {
+        const { value } = form;
+        this.remove.emit({ ...this.pizza, ...value });
+    }
 }

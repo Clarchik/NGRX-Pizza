@@ -68,6 +68,9 @@ h4 {
 .btn__ok:hover {
   background: #0a7d61;
 }
+.btn__ok:disabled {
+    background: black;
+}
 .btn__warning {
   background: #ab131c;
   color: #fff;
