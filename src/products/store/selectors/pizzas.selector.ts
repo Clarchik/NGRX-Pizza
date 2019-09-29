@@ -1,10 +1,11 @@
 import { createSelector } from '@ngrx/store';
-import { Pizza } from 'src/products/models/pizza.model';
 
 import * as fromRoot from '../../../app/store';
 import * as fromFeature from '../reducers';
 import * as fromPizzas from '../reducers/pizzas.reducer';
 import * as fromToppings from './toppings.selector';
+
+import { Pizza } from '../../models/pizza.model';
 
 
 export const getPizzasState = createSelector(

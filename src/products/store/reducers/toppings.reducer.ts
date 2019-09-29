@@ -1,6 +1,6 @@
 import * as fromToppings from '../actions/toppings.action';
-import { Topping } from 'src/products/models/topping.model';
 import * as fromUtils from '../../../shared/services';
+import { Topping } from '../../models/topping.model';
 
 export interface ToppingsState {
     entities: { [id: number]: Topping };

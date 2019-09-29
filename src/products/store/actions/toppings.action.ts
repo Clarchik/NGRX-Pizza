@@ -1,6 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Topping } from 'src/products/models/topping.model';
-import { Pizza } from 'src/products/models/pizza.model';
+import { Topping } from '../../models/topping.model';
 
 
 export const LOAD_TOPPINGS = '[Products] Load Toppings';

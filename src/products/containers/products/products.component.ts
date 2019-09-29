@@ -1,10 +1,10 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Pizza } from '../../models/pizza.model';
 import { Observable } from 'rxjs';
 
 import * as fromStore from '../../store';
-import { PizzasService } from 'src/products/services';
+import { PizzasService } from '../../services/pizzas.service';
 
 
 @Component({

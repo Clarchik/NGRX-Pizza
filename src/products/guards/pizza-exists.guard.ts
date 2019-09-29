@@ -3,10 +3,10 @@ import { CanActivate, ActivatedRouteSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { Observable } from 'rxjs';
-import { Pizza } from 'src/products/models/pizza.model';
 
 import * as fromStore from '../store';
 import { switchMap, map, take, tap, filter } from 'rxjs/operators';
+import { Pizza } from '../models/pizza.model';
 
 @Injectable()
 export class PizzaExistsGuards implements CanActivate {
