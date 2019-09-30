@@ -1,11 +1,11 @@
 import { Pizza } from '../../models/pizza.model';
 
-import * as fromPizzas from '../actions/pizzas.action';
+import * as fromPizzas from '../actions/pizzas/pizzas.action';
 import * as fromUtils from '../../../shared/services';
 import { from } from 'rxjs';
 
 export interface PizzaState {
-    entities: { [id: string]: Pizza };
+    entities: { [id: number]: Pizza };
     loaded: boolean;
     loading: boolean;
 }

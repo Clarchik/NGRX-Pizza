@@ -1,7 +1,7 @@
 import { Topping } from '../models/topping.model';
 
 export interface Pizza {
-    id?: string;
+    id?: number;
     name?: string;
     toppings?: Topping[];
 }

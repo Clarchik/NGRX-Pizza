@@ -1,15 +1,15 @@
-import { Injectable } from '@angular/core';
-import { Effect, Actions, ofType } from '@ngrx/effects';
-import { switchMapTo, map, catchError, tap, switchMap } from 'rxjs/operators';
-import { PizzasService } from '../../services';
-import { of } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {Effect, Actions, ofType} from '@ngrx/effects';
+import {switchMapTo, map, catchError, tap, switchMap} from 'rxjs/operators';
+import {PizzasService} from '../../services';
+import {of} from 'rxjs';
 
 import * as fromRoot from '../../../app/store/';
-import * as pizzaActions from '../actions/pizzas.action';
+import * as pizzaActions from '../actions/pizzas/pizzas.action';
 
 @Injectable()
 export class PizzasEffects {
-    constructor(private actions$: Actions, private pizzaService: PizzasService) { }
+    constructor(private actions$: Actions, private pizzaService: PizzasService) {}
 
 
     @Effect()
@@ -26,9 +26,7 @@ export class PizzasEffects {
     createPizza$ = this.actions$
         .pipe(
             ofType(pizzaActions.CREATE_PIZZA),
-            map((action: pizzaActions.CreatePizza) => {
-                return action.payload;
-            }),
+            map((action: pizzaActions.CreatePizza) => action.payload),
             switchMap(pizza => this.pizzaService.createPizza(pizza)
                 .pipe(
                     map(returnedPizza => new pizzaActions.CreatePizzaSuccess(returnedPizza)),

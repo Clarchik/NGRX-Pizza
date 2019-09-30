@@ -1,4 +1,4 @@
-import * as fromToppings from '../actions/toppings.action';
+import * as fromToppings from '../actions/toppings/toppings.action';
 import * as fromUtils from '../../../shared/services';
 import { Topping } from '../../models/topping.model';
 
